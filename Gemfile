@@ -11,6 +11,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
 
 group :development, :test do
+  gem 'timecop'
+  gem 'rspec-rails'
   gem 'dotenv-rails'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
