@@ -1,8 +1,8 @@
 class Api::V1::EmployeeRecordsController < Api::V1::BaseApiController
 
   def index
-    @employee_records = EmployeeRecord.all
-    render json: {employee_records: @employee_records}
+    @employee_records = EmployeeRecord.get_records_pending_out
+    render json: { employee_records: @employee_records }
   end
 
   def show
