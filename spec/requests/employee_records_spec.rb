@@ -25,11 +25,41 @@ RSpec.describe "EmployeeRecords", type: :request do
 
         get "/api/v1/employee_records"
 
-        expect(response.status). to eql 200
+        expect(response.status).to eql 200
 
         expect(
           json_body[:employee_records].map { |r| r[:id] }
         ).to match_array([record_2.id, record_3.id])
+      end
+    end
+  end
+
+  describe "GET /api/v1/employees/{id}/employee_records" do
+    let(:json_body) { JSON.parse(response.body, symbolize_names: true) }
+
+    context "get employee records" do
+      it "get employee_records of an employee" do
+        employee = Employee.create(first_name: 'Miguel', last_name: 'Carrizo', legajo: '1', email: 'miguel@m.com', password: '123456')
+        record_1 = EmployeeRecord.create(in_employee: '2019-02-01T01:05:00.000Z',
+                             out_employee: '2019-02-01T05:05:00.000Z',
+                             user_id: employee.id,
+                             created_at:'2019-02-01')
+
+        record_2 = EmployeeRecord.create(in_employee: '2019-02-02T01:05:00.000Z',
+                             out_employee: '2019-02-02T05:05:00.000Z',
+                             user_id: employee.id,
+                             created_at:'2019-02-02')
+
+        record_3 = EmployeeRecord.create(in_employee: '2019-03-01T01:05:00.000Z',
+                             user_id: employee.id,
+                             created_at:'2019-03-01')
+
+        get "/api/v1/employees/#{employee.id}/employee_records"
+
+        expect(response.status).to eql 200
+        expect(
+          json_body[:employee_records].map { |r| r[:user_id] }
+        ).to match_array([employee.id])
       end
     end
   end
