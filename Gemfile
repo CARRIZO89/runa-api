@@ -9,6 +9,7 @@ gem 'puma', '~> 3.11'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'factory_bot_rails', "~> 4.0" # A library for setting up Ruby objects as test data.
