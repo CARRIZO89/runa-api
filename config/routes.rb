@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
-  devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      mount_devise_token_auth_for 'User', at: 'users', controllers: { sessions: 'api/v1/users/sessions' }
+      resources :employee_records, only: [:index]
+      resources :employees, only: [:index, :create, :update] do
+        resources :employee_records, only: [:index, :create] do
+          collection do
+            put :update
+            get :last, to: "last_employee_records#show"
+          end
+        end
+      end
+    end
+  end
 end

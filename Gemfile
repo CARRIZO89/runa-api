@@ -9,8 +9,15 @@ gem 'puma', '~> 3.11'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
+gem 'devise_token_auth'
+gem 'omniauth'
+gem 'rack-cors'
 
 group :development, :test do
+  gem 'factory_bot_rails', "~> 4.0" # A library for setting up Ruby objects as test data.
+  gem 'database_cleaner'
+  gem 'timecop'
+  gem 'rspec-rails'
   gem 'dotenv-rails'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
