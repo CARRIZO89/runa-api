@@ -9,6 +9,8 @@ gem 'puma', '~> 3.11'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
+gem 'devise_token_auth'
+gem 'omniauth'
 gem 'rack-cors'
 
 group :development, :test do
