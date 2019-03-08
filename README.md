@@ -1,24 +1,27 @@
-# README
+Runa Api
+==========================================
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Enviroment
+------------------------------------------
 
-Things you may want to cover:
+- Ruby version: `2.5.1p57`
+- Rails version: `5.2.2`
 
-* Ruby version
+Configuration
+------------------------------------------
 
-* System dependencies
+- `bundle install`
+- `rails db:create`
+- `rails db:migrate`
+- `rails db:seed`
 
-* Configuration
+Usage
+------------------------------------------
 
-* Database creation
+- `bundle exec rails server`
+- Run the react app: `https://github.com/CARRIZO89/runa-front`
 
-* Database initialization
+Run Test
+------------------------------------------
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- `bundle exec rspec`
