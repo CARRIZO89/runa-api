@@ -7,7 +7,7 @@ RSpec.describe "Employees", type: :request do
     it "create an employee" do
       post '/api/v1/employees', params: {
         employee: {first_name: 'Miguel', last_name: 'Carrizo', legajo: '1', email: 'miguel_1@m.com', password: '123456'}
-      }
+      }, headers: auth_header
 
       expect(response.status).to eql 201
       expect(json_body).to include(
@@ -26,7 +26,7 @@ RSpec.describe "Employees", type: :request do
 
       put "/api/v1/employees/#{employee.id}", params: {
         employee: { first_name: 'Maria Emilia' }
-      }
+      }, headers: auth_header
 
       expect(response.status).to eql 200
       expect(json_body).to include(

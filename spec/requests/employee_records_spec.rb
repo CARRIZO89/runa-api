@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "EmployeeRecords", type: :request do
+
   describe "GET /api/v1/employee_records" do
     let(:json_body) { JSON.parse(response.body, symbolize_names: true) }
 
     context "get employee records" do
       it "get employee records pending out" do
+
         employee_1 = Employee.create(first_name: 'Miguel', last_name: 'Carrizo', legajo: '1', email: 'miguel@m.com', password: '123456')
         employee_2 = Employee.create(first_name: 'Maria', last_name: 'Carrizo', legajo: '2', email: 'maria@m.com', password: '123456')
         employee_3 = Employee.create(first_name: 'Marcos', last_name: 'Carrizo', legajo: '3', email: 'mmarcos@m.com', password: '123456')
@@ -23,7 +25,7 @@ RSpec.describe "EmployeeRecords", type: :request do
                              user_id: employee_3.id,
                              created_at:'2019-03-01')
 
-        get "/api/v1/employee_records"
+        get "/api/v1/employee_records", headers: auth_header
 
         expect(response.status).to eql 200
 
@@ -54,12 +56,10 @@ RSpec.describe "EmployeeRecords", type: :request do
                              user_id: employee.id,
                              created_at:'2019-03-01')
 
-        get "/api/v1/employees/#{employee.id}/employee_records"
+        get "/api/v1/employees/#{employee.id}/employee_records", headers: auth_header
 
         expect(response.status).to eql 200
-        expect(
-          json_body[:employee_records].map { |r| r[:user_id] }
-        ).to match_array([employee.id])
+        expect(json_body.pluck(:user_id).uniq).to eql([employee.id])
       end
     end
   end
@@ -81,7 +81,7 @@ RSpec.describe "EmployeeRecords", type: :request do
 
     context 'when employee in' do
       it "create employee record" do
-        post "/api/v1/employees/#{employee.id}/employee_records"
+        post "/api/v1/employees/#{employee.id}/employee_records", headers: auth_header
         
         expect(response.status).to eql 201
         expect(json_body).to include(
@@ -99,10 +99,11 @@ RSpec.describe "EmployeeRecords", type: :request do
       let(:out_time) { Time.parse('2019-02-27T08:05:00.000Z') }
 
       it "updates employee record" do
-        post "/api/v1/employees/#{employee.id}/employee_records"
+        new_header = auth_header
+        post "/api/v1/employees/#{employee.id}/employee_records", headers: new_header
         in_id = JSON.parse(response.body, symbolize_names: true)[:employee_record][:id]
         Timecop.freeze(out_time)
-        put "/api/v1/employees/#{employee.id}/employee_records"
+        put "/api/v1/employees/#{employee.id}/employee_records", headers: new_header
         
         expect(response.status).to eql 200
         expect(json_body).to include(
